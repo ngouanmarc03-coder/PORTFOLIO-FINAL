@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark" data-font="bebas">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Marc Anouman – Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Orbitron:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Josefin+Sans:wght@300;400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<!-- ══════════════ CANVAS LAYERS ══════════════ -->
+<canvas id="bgCanvas"></canvas>
+<canvas id="matrixCanvas"></canvas>
+
+<!-- ══════════════ CURSOR ══════════════ -->
+<div id="cursor"><div class="cursor-dot"></div></div>
+<div id="cursorRing"></div>
+
+<!-- ══════════════ WELCOME SPLASH ══════════════ -->
+<div id="welcomeSplash">
+  <div class="splash-bg"></div>
+  <div class="splash-particles" id="splashParticles"></div>
+  <div class="splash-content">
+    <div class="splash-line splash-line1">
+      <span class="splash-word" data-delay="0">Bienvenue</span>
+      <span class="splash-word" data-delay="0.1">sur</span>
+      <span class="splash-word" data-delay="0.2">le</span>
+    </div>
+    <div class="splash-line splash-line2">
+      <span class="splash-word" data-delay="0.3">Portfolio</span>
+      <span class="splash-word splash-highlight" data-delay="0.4">de</span>
+    </div>
+    <div class="splash-name">
+      <span class="splash-char" data-delay="0.6">M</span><span class="splash-char" data-delay="0.65">a</span><span class="splash-char" data-delay="0.7">r</span><span class="splash-char" data-delay="0.75">c</span>
+      <span class="splash-space"> </span>
+      <span class="splash-char splash-green" data-delay="0.85">A</span><span class="splash-char splash-green" data-delay="0.9">n</span><span class="splash-char splash-green" data-delay="0.95">o</span><span class="splash-char splash-green" data-delay="1.0">u</span><span class="splash-char splash-green" data-delay="1.05">m</span><span class="splash-char splash-green" data-delay="1.1">a</span><span class="splash-char splash-green" data-delay="1.15">n</span>
+    </div>
+    <div class="splash-subtitle">
+      <span class="splash-tag" data-delay="1.3">Développeur Web</span>
+      <span class="splash-dot">·</span>
+      <span class="splash-tag" data-delay="1.4">Designer</span>
+      <span class="splash-dot">·</span>
+      <span class="splash-tag" data-delay="1.5">Technicien IT</span>
+    </div>
+    <div class="splash-progress-wrap" data-delay="1.7">
+      <div class="splash-progress-bar" id="splashBar"></div>
+    </div>
+    <div class="splash-skip" id="splashSkip">Appuyer pour continuer →</div>
+  </div>
+</div>
+
+<!-- ══════════════ SETTINGS PANEL ══════════════ -->
+<div id="settingsPanel">
+  <div class="settings-backdrop" id="settingsBackdrop"></div>
+  <div class="settings-drawer">
+    <div class="settings-header">
+      <span class="settings-title">⚙ Paramètres</span>
+      <button class="settings-close" id="settingsClose">✕</button>
+    </div>
+
+    <!-- THEME -->
+    <div class="settings-section">
+      <div class="settings-label">🎨 Thème</div>
+      <div class="theme-grid">
+        <button class="theme-btn active" data-theme="dark" title="Vert Sombre">
+          <span class="theme-preview dark-preview"></span>
+          <span>Sombre</span>
+        </button>
+        <button class="theme-btn" data-theme="light" title="Blanc">
+          <span class="theme-preview light-preview"></span>
+          <span>Clair</span>
+        </button>
+        <button class="theme-btn" data-theme="red" title="Rouge">
+          <span class="theme-preview red-preview"></span>
+          <span>Rouge</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- FONT -->
+    <div class="settings-section">
+      <div class="settings-label">✍ Police</div>
+      <div class="font-grid">
+        <button class="font-btn active" data-font="bebas" style="font-family:'Bebas Neue'">Bebas</button>
+        <button class="font-btn" data-font="syne" style="font-family:'Syne'">Syne</button>
+        <button class="font-btn" data-font="orbitron" style="font-family:'Orbitron'">Orbitron</button>
+        <button class="font-btn" data-font="playfair" style="font-family:'Playfair Display'">Playfair</button>
+        <button class="font-btn" data-font="dancing" style="font-family:'Dancing Script'">Dancing</button>
+        <button class="font-btn" data-font="josefin" style="font-family:'Josefin Sans'">Josefin</button>
+        <button class="font-btn" data-font="rajdhani" style="font-family:'Rajdhani'">Rajdhani</button>
+        <button class="font-btn" data-font="mono" style="font-family:'Space Mono'">Mono</button>
+      </div>
+    </div>
+
+    <!-- LANGUAGE -->
+    <div class="settings-section">
+      <div class="settings-label">🌐 Langue</div>
+      <div class="lang-grid">
+        <button class="lang-btn active" data-lang="fr">🇫🇷 Français</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        <button class="lang-btn" data-lang="es">🇪🇸 Español</button>
+        <button class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+      </div>
+    </div>
+
+    <!-- EFFECTS -->
+    <div class="settings-section">
+      <div class="settings-label">✨ Effets</div>
+      <div class="toggle-row">
+        <span>Particules</span>
+        <label class="toggle"><input type="checkbox" id="toggleParticles" checked><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-row">
+        <span>Matrix Rain</span>
+        <label class="toggle"><input type="checkbox" id="toggleMatrix"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="toggle-row">
+        <span>Curseur Custom</span>
+        <label class="toggle"><input type="checkbox" id="toggleCursor" checked><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <span class="logo-lt">&lt;</span><span class="logo-name">MARC</span><span class="logo-lt">/&gt;</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero" class="nav-link" data-i18n="nav.home">Accueil</a></li>
+    <li><a href="#skills" class="nav-link" data-i18n="nav.skills">Compétences</a></li>
+    <li><a href="#projects" class="nav-link">Projets</a></li>
+    <li><a href="#journey" class="nav-link" data-i18n="nav.journey">Parcours</a></li>
+    <li><a href="#ambitions" class="nav-link" data-i18n="nav.ambitions">Ambitions</a></li>
+    <li><a href="#appreciation" class="nav-link" data-i18n="nav.appreciation">Appréciation</a></li>
+    <li><a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    <li><a href="./admin.html" class="nav-link nav-admin">Admin</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="nav-icon-btn" id="settingsBtn" title="Paramètres">⚙</button>
+    <button class="nav-icon-btn" id="aiBtn" title="Assistant IA">🤖</button>
+    <button class="nav-hamburger" id="navHamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero" class="hero-section">
+  <div class="hero-bg">
+    <div class="hero-bg-img" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid"></div>
+  </div>
+
+  <div class="hero-shapes">
+    <div class="hshape s1"></div><div class="hshape s2"></div>
+    <div class="hshape s3"></div><div class="hshape s4"></div>
+    <div class="hshape s5"></div><div class="hshape s6"></div>
+  </div>
+
+  <div class="hero-content" id="heroContent">
+    <div class="hero-available animate-seq" data-seq="1">
+      <span class="avail-dot"></span>
+      <span data-i18n="hero.available">Disponible pour missions freelance</span>
+    </div>
+
+    <div class="hero-intro animate-seq" data-seq="2">
+      <span class="hero-intro-text">Bonjour, je suis</span>
+    </div>
+
+    <h1 class="hero-title animate-seq" data-seq="3">
+      <span class="ht-first">N'GOUAN</span>
+      <span class="ht-last glitch-target" data-text="ANOUMAN">ANOUMAN</span>
+      <span class="ht-nick">— <em>Marc</em></span>
+    </h1>
+
+    <!-- BIOGRAPHIE COURTE -->
+    <div class="hero-bio animate-seq" data-seq="4">
+      <p>Je suis <strong>N'Gouan Anouman Marc</strong>, développeur web basé en Côte d'Ivoire.
+      Je fais ça par <span class="bio-accent">passion</span> — j'ai tout appris seul, en cherchant, en pratiquant,
+      guidé par des experts et des frères qui m'ont inspiré.
+      Chaque projet que je crée, c'est un morceau de moi.</p>
+    </div>
+
+    <div class="hero-typerow animate-seq" data-seq="5">
+      <span class="tw-prefix">Je suis </span>
+      <span class="tw-text" id="heroTypewriter"></span>
+      <span class="tw-cursor">|</span>
+    </div>
+
+    <div class="hero-btns animate-seq" data-seq="6">
+      <a href="#skills" class="btn-hero-main">
+        <span>Découvrir l'univers</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#contact" class="btn-hero-sec">Me contacter</a>
+    </div>
+
+    <div class="hero-pills animate-seq" data-seq="7">
+      <span class="pill p1">HTML5</span>
+      <span class="pill p2">CSS3</span>
+      <span class="pill p3">JavaScript</span>
+      <span class="pill p4">Node.js</span>
+      <span class="pill p5">Adobe</span>
+      <span class="pill p6">Unity/C#</span>
+      <span class="pill p7">Canva</span>
+      <span class="pill p8">Office 365</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll-cue">
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ══════════════ SKILLS ══════════════ -->
+<section id="skills" class="skills-section">
+  <div class="section-head">
+    <span class="sec-tag"> COMPÉTENCES</span>
+    <h2 class="sec-title" data-i18n="skills.title">Mon <span class="accent">Univers</span></h2>
+    <p class="sec-sub" data-i18n="skills.sub">Clique sur une catégorie pour explorer mes outils</p>
+  </div>
+
+  <!-- Category tabs -->
+  <div class="skills-tabs">
+    <button class="skill-tab active" data-cat="web">
+      <span class="tab-icon">🌐</span>
+      <span data-i18n="skills.cat.web">Création Web</span>
+    </button>
+    <button class="skill-tab" data-cat="design">
+      <span class="tab-icon">🎨</span>
+      <span data-i18n="skills.cat.design">Design</span>
+    </button>
+    <button class="skill-tab" data-cat="office">
+      <span class="tab-icon">📊</span>
+      <span data-i18n="skills.cat.office">Office</span>
+    </button>
+    <button class="skill-tab" data-cat="software">
+      <span class="tab-icon">💻</span>
+      <span data-i18n="skills.cat.software">Logiciels</span>
+    </button>
+    <button class="skill-tab" data-cat="unity">
+      <span class="tab-icon">🎮</span>
+      <span data-i18n="skills.cat.unity">Unity / C#</span>
+    </button>
+  </div>
+
+  <!-- Skill panels with real official logos -->
+  <div class="skills-panels">
+
+    <!-- ══ WEB ══ -->
+    <div class="skill-panel active" data-panel="web">
+      <div class="panel-desc" data-i18n="skills.web.desc">Création de sites web modernes, responsives et performants — du design au déploiement.</div>
+      <div class="logo-grid">
+        <div class="logo-card" data-level="95">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" width="54" height="54"/></div>
+          <div class="lc-name">HTML5</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:95%"></div></div>
+        </div>
+        <div class="logo-card" data-level="90">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" width="54" height="54"/></div>
+          <div class="lc-name">CSS3</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:90%"></div></div>
+        </div>
+        <div class="logo-card" data-level="85">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" width="54" height="54"/></div>
+          <div class="lc-name">JavaScript</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:85%"></div></div>
+        </div>
+        <div class="logo-card" data-level="75">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" width="54" height="54"/></div>
+          <div class="lc-name">Node.js</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:75%"></div></div>
+        </div>
+        <div class="logo-card" data-level="80">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" width="54" height="54"/></div>
+          <div class="lc-name">PHP</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:80%"></div></div>
+        </div>
+        <div class="logo-card" data-level="70">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" width="54" height="54"/></div>
+          <div class="lc-name">MySQL</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:70%"></div></div>
+        </div>
+        <div class="logo-card" data-level="72">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" width="54" height="54"/></div>
+          <div class="lc-name">MongoDB</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:72%"></div></div>
+        </div>
+        <div class="logo-card" data-level="65">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" width="54" height="54"/></div>
+          <div class="lc-name">Git</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:65%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DESIGN ══ -->
+    <div class="skill-panel" data-panel="design">
+      <div class="panel-desc" data-i18n="skills.design.desc">Création d'identités visuelles, logos, affiches et contenus graphiques professionnels.</div>
+      <div class="logo-grid">
+        <div class="logo-card" data-level="90">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva" width="54" height="54"/></div>
+          <div class="lc-name">Canva</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:90%"></div></div>
+        </div>
+        <div class="logo-card" data-level="82">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" alt="Photoshop" width="54" height="54"/></div>
+          <div class="lc-name">Photoshop</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:82%"></div></div>
+        </div>
+        <div class="logo-card" data-level="78">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" alt="Illustrator" width="54" height="54"/></div>
+          <div class="lc-name">Illustrator</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:78%"></div></div>
+        </div>
+        <div class="logo-card" data-level="85">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#6c3ce1,#c44dff);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:1.6rem;width:54px;height:54px;flex-shrink:0">K</div>
+          <div class="lc-name">Kittl</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:85%"></div></div>
+        </div>
+        <div class="logo-card" data-level="75">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" width="54" height="54"/></div>
+          <div class="lc-name">Figma</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:75%"></div></div>
+        </div>
+        <div class="logo-card" data-level="70">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/premierepro/premierepro-plain.svg" alt="Premiere Pro" width="54" height="54"/></div>
+          <div class="lc-name">Premiere Pro</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:70%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ OFFICE ══ -->
+    <div class="skill-panel" data-panel="office">
+      <div class="panel-desc" data-i18n="skills.office.desc">Maîtrise complète de Microsoft Office pour documents, tableurs et présentations professionnels.</div>
+      <div class="logo-grid">
+        <div class="logo-card" data-level="95">
+          <div class="lc-icon office-text-icon" style="background:linear-gradient(135deg,#103F91,#2B7CD3);border-radius:10px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px">
+            <span style="color:#fff;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.05em;line-height:1">Word</span>
+            <span style="width:28px;height:2px;background:rgba(255,255,255,0.5);border-radius:1px;display:block"></span>
+          </div>
+          <div class="lc-name">Word</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:95%"></div></div>
+        </div>
+        <div class="logo-card" data-level="92">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#0E4D28,#1E7145);border-radius:10px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px">
+            <span style="color:#fff;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.05em;line-height:1">Excel</span>
+            <span style="width:28px;height:2px;background:rgba(255,255,255,0.5);border-radius:1px;display:block"></span>
+          </div>
+          <div class="lc-name">Excel</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:92%"></div></div>
+        </div>
+        <div class="logo-card" data-level="90">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#7B1D08,#C43E1C);border-radius:10px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px">
+            <span style="color:#fff;font-family:'Bebas Neue',cursive;font-size:.75rem;letter-spacing:.03em;line-height:1.1;text-align:center">Power<br>Point</span>
+          </div>
+          <div class="lc-name">PowerPoint</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:90%"></div></div>
+        </div>
+        <div class="logo-card" data-level="85">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#004C97,#0078D4);border-radius:10px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px">
+            <span style="color:#fff;font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:.03em;line-height:1">Outlook</span>
+            <span style="width:28px;height:2px;background:rgba(255,255,255,0.5);border-radius:1px;display:block"></span>
+          </div>
+          <div class="lc-name">Outlook</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:85%"></div></div>
+        </div>
+        <div class="logo-card" data-level="80">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#363E99,#5059C9);border-radius:10px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px">
+            <span style="color:#fff;font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:.03em;line-height:1">Teams</span>
+            <span style="width:28px;height:2px;background:rgba(255,255,255,0.5);border-radius:1px;display:block"></span>
+          </div>
+          <div class="lc-name">Teams</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:80%"></div></div>
+        </div>
+        <div class="logo-card" data-level="88">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#6E1317,#A4373A);border-radius:10px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px">
+            <span style="color:#fff;font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:.03em;line-height:1">Access</span>
+            <span style="width:28px;height:2px;background:rgba(255,255,255,0.5);border-radius:1px;display:block"></span>
+          </div>
+          <div class="lc-name">Access</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:88%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SOFTWARE ══ -->
+    <div class="skill-panel" data-panel="software">
+      <div class="panel-desc" data-i18n="skills.software.desc">Installation, configuration et maintenance de logiciels et systèmes d'exploitation.</div>
+      <div class="logo-grid">
+        <div class="logo-card" data-level="92">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" alt="Windows" width="54" height="54"/></div>
+          <div class="lc-name">Windows</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:92%"></div></div>
+        </div>
+        <div class="logo-card" data-level="75">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux" width="54" height="54"/></div>
+          <div class="lc-name">Linux</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:75%"></div></div>
+        </div>
+        <div class="logo-card" data-level="88">
+          <div class="lc-icon" style="background:#607078;border-radius:10px;display:flex;align-items:center;justify-content:center;width:54px;height:54px;flex-shrink:0">
+            <img src="https://cdn.worldvectorlogo.com/logos/vmware-1.svg" alt="VMware" width="44" height="44" onerror="this.parentNode.innerHTML='<span style=\'color:white;font-weight:900;font-size:.8rem\'>VM</span>'"/>
+          </div>
+          <div class="lc-name">VMware</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:88%"></div></div>
+        </div>
+        <div class="logo-card" data-level="80">
+          <div class="lc-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png" alt="VirtualBox" width="54" height="54" style="border-radius:6px;object-fit:contain"/></div>
+          <div class="lc-name">VirtualBox</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:80%"></div></div>
+        </div>
+        <div class="logo-card" data-level="85">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" width="54" height="54"/></div>
+          <div class="lc-name">VS Code</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:85%"></div></div>
+        </div>
+        <div class="logo-card" data-level="70">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" alt="Android" width="54" height="54"/></div>
+          <div class="lc-name">Android</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:70%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ UNITY / C# ══ -->
+    <div class="skill-panel" data-panel="unity">
+      <div class="panel-desc" data-i18n="skills.unity.desc">Développement de jeux, animations et expériences interactives avec Unity Engine et C#.</div>
+      <div class="logo-grid">
+        <div class="logo-card" data-level="78">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" alt="Unity" width="54" height="54"/></div>
+          <div class="lc-name">Unity</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:78%"></div></div>
+        </div>
+        <div class="logo-card" data-level="75">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" width="54" height="54"/></div>
+          <div class="lc-name">C#</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:75%"></div></div>
+        </div>
+        <div class="logo-card" data-level="65">
+          <div class="lc-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg" alt="Blender" width="54" height="54"/></div>
+          <div class="lc-name">Blender</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:65%"></div></div>
+        </div>
+        <div class="logo-card" data-level="70">
+          <div class="lc-icon" style="background:linear-gradient(135deg,#8b0000,#cc0000);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:.75rem;width:54px;height:54px;flex-shrink:0">WebGL</div>
+          <div class="lc-name">WebGL</div>
+          <div class="lc-bar"><div class="lc-fill" style="--lv:70%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panels -->
+
+</section>
+
+<!-- ══════════════ PROJETS ══════════════ -->
+<section id="projects" class="projects-section">
+  <div class="section-head">
+    <span class="sec-tag"> PROJETS</span>
+    <h2 class="sec-title">Mes <span class="accent">Réalisations</span></h2>
+    <p class="sec-sub">Des projets concrets, livrés et en ligne</p>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card featured">
+      <div class="proj-badge"> Projet Live</div>
+      <div class="proj-screen">
+        <div class="proj-browser-bar">
+          <span class="bb-dot r"></span>
+          <span class="bb-dot y"></span>
+          <span class="bb-dot g"></span>
+          <span class="bb-url">boutiquemkstore.netlify.app</span>
+        </div>
+        <div class="proj-preview">
+          <div class="proj-preview-inner">
+            <div class="pp-header">
+              <span class="pp-logo">MK Store</span>
+              <div class="pp-nav"><span></span><span></span><span></span></div>
+            </div>
+            <div class="pp-hero">
+              <div class="pp-hero-text">
+                <div class="pp-h1">Mode &amp; Style</div>
+                <div class="pp-h2">Boutique en ligne</div>
+              </div>
+            </div>
+            <div class="pp-products">
+              <div class="pp-prod"></div>
+              <div class="pp-prod"></div>
+              <div class="pp-prod"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-info">
+        <h3>MK Store — Boutique de Mode</h3>
+        <p>Site e-commerce complet pour une boutique de vêtements. Catalogue de produits, système de panier, paiement, espace membre et accès privilégié Black Friday avec QR code. Célébrités clientes (Franglish, Vegedream).</p>
+        <div class="proj-tags">
+          <span>HTML/CSS</span><span>JavaScript</span><span>E-commerce</span><span>Netlify</span>
+        </div>
+        <a href="https://boutiquemkstore.netlify.app/" target="_blank" class="proj-link">
+          Voir le projet en ligne
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-icon-wrap">
+        <div class="proj-icon">🌐</div>
+      </div>
+      <div class="proj-info">
+        <h3>Sites Vitrines Clients</h3>
+        <p>Création de sites web professionnels pour des clients en Côte d'Ivoire. Restaurants, boutiques, services — design sur mesure et responsive.</p>
+        <div class="proj-tags"><span>HTML/CSS</span><span>JavaScript</span><span>Design</span></div>
+        <span class="proj-status">✓ Missions réalisées</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-icon-wrap">
+        <div class="proj-icon">🎨</div>
+      </div>
+      <div class="proj-info">
+        <h3>Identités Visuelles</h3>
+        <p>Logos, affiches, flyers et identités visuelles complètes pour des entreprises et événements. Création avec Canva, Photoshop et Illustrator.</p>
+        <div class="proj-tags"><span>Canva</span><span>Adobe</span><span>Kittl</span></div>
+        <span class="proj-status">✓ 20+ créations</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ JOURNEY ══════════════ -->
+<section id="journey" class="journey-section">
+  <div class="section-head">
+    <span class="sec-tag"> PARCOURS</span>
+    <h2 class="sec-title" data-i18n="journey.title"> <span class="accent"></span></h2>
+  </div>
+  <div class="timeline" id="timeline">
+    <div class="tl-line"><div class="tl-progress" id="tlProgress"></div></div>
+
+    <!-- ÉTAPE 1 -->
+    <div class="tl-item tl-left" data-index="0">
+      <div class="tl-connector"></div>
+      <div class="tl-dot"><div class="tl-dot-core"></div></div>
+      <div class="tl-card">
+        <span class="tl-period">Côte d'Ivoire · Les débuts</span>
+        <h3>La passion du numérique</h3>
+        <p>Tout commence par une curiosité irrésistible pour l'informatique. Je démonte des PC, j'installe des logiciels, je cherche sur internet. Personne ne m'a appris — j'ai tout découvert seul, grâce aux recherches, aux tutoriels et à des experts et frères qui m'ont guidé et inspiré.</p>
+        <div class="tl-chips"><span>🇨🇮 Côte d'Ivoire</span><span>Autodidacte</span><span>Recherche</span></div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="tl-item tl-right" data-index="1">
+      <div class="tl-connector"></div>
+      <div class="tl-dot"><div class="tl-dot-core"></div></div>
+      <div class="tl-card">
+        <span class="tl-period">Formation intensive · Auto-apprentissage</span>
+        <h3>De zéro à développeur</h3>
+        <p>Je me forme sérieusement : HTML, CSS, JavaScript, Node.js, bases de données. En parallèle je plonge dans le design graphique avec Canva, Adobe et Kittl. Je n'arrête pas d'apprendre. Chaque jour un nouveau skill, chaque semaine un nouveau projet concret.</p>
+        <div class="tl-chips"><span>HTML/CSS</span><span>JavaScript</span><span>Node.js</span><span>Design</span></div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="tl-item tl-left" data-index="2">
+      <div class="tl-connector"></div>
+      <div class="tl-dot"><div class="tl-dot-core"></div></div>
+      <div class="tl-card">
+        <span class="tl-period">Premiers clients · Freelance</span>
+        <h3>Les premières missions</h3>
+        <p>Je lance mes services : création de sites web, design, support informatique, installation de logiciels. Les clients arrivent. Je crée MK Store, une vraie boutique e-commerce en ligne. Chaque mission renforce ma confiance et mon expertise.</p>
+        <div class="tl-chips"><span>Freelance</span><span>MK Store</span><span>Sites Web</span><span>Support IT</span></div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 4 — MAINTENANT -->
+    <div class="tl-item tl-right" data-index="3">
+      <div class="tl-connector"></div>
+      <div class="tl-dot"><div class="tl-dot-core"></div></div>
+      <div class="tl-card tl-current">
+        <span class="tl-period current-period">Aujourd'hui · Étudiant & Freelance actif</span>
+        <h3>Je construis mon futur</h3>
+        <p>Étudiant passionné, je jongle entre l'apprentissage continu et mes missions freelance. Je développe avec Unity/C#, je crée des expériences web interactives. Mes prochains objectifs : la cybersécurité, les réseaux fibre et l'IA. Ce n'est que le début.</p>
+        <div class="tl-chips"><span>🎓 Étudiant</span><span>Freelance actif</span><span>Unity/C#</span><span>Avenir 🚀</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ AMBITIONS ══════════════ -->
+<section id="ambitions" class="ambitions-section">
+  <div class="section-head">
+    <span class="sec-tag">// AMBITIONS</span>
+    <h2 class="sec-title" data-i18n="ambitions.title"> <span class="accent"></span></h2>
+    <p class="sec-sub" data-i18n="ambitions.sub">Les domaines que j'explore pour demain</p>
+  </div>
+  <div class="ambitions-grid">
+    <div class="amb-card" data-aos="left">
+      <div class="amb-icon">🔒</div>
+      <div class="amb-glow"></div>
+      <h3 data-i18n="amb.cyber.title">Cybersécurité</h3>
+      <p data-i18n="amb.cyber.desc">Sécurisation des systèmes, tests de pénétration, protection des données et audit de sécurité. Un domaine en pleine expansion que je veux maîtriser.</p>
+      <div class="amb-tags"><span>Ethical Hacking</span><span>CTF</span><span>Réseau</span></div>
+    </div>
+    <div class="amb-card" data-aos="up">
+      <div class="amb-icon">🌐</div>
+      <div class="amb-glow"></div>
+      <h3 data-i18n="amb.fiber.title">Fibre Optique & Réseaux</h3>
+      <p data-i18n="amb.fiber.desc">Infrastructure réseau, déploiement fibre, configuration de routeurs et switches. La connectivité est l'avenir de l'Afrique.</p>
+      <div class="amb-tags"><span>FTTH</span><span>Cisco</span><span>Infrastructure</span></div>
+    </div>
+    <div class="amb-card" data-aos="right">
+      <div class="amb-icon">🤖</div>
+      <div class="amb-glow"></div>
+      <h3 data-i18n="amb.ai.title">Intelligence Artificielle</h3>
+      <p data-i18n="amb.ai.desc">Intégration d'IA dans les applications web, automatisation et machine learning. Le futur du développement.</p>
+      <div class="amb-tags"><span>ML</span><span>Python</span><span>APIs IA</span></div>
+    </div>
+    <div class="amb-card" data-aos="left">
+      <div class="amb-icon">📱</div>
+      <div class="amb-glow"></div>
+      <h3 data-i18n="amb.mobile.title">Dev Mobile</h3>
+      <p data-i18n="amb.mobile.desc">React Native et Flutter pour créer des applications mobiles cross-platform performantes pour le marché africain.</p>
+      <div class="amb-tags"><span>React Native</span><span>Flutter</span><span>Android</span></div>
+    </div>
+    <div class="amb-card" data-aos="right">
+      <div class="amb-icon">☁</div>
+      <div class="amb-glow"></div>
+      <h3 data-i18n="amb.cloud.title">Cloud & DevOps</h3>
+      <p data-i18n="amb.cloud.desc">AWS, Docker, déploiement continu. Construire des infrastructures scalables et modernes pour les entreprises africaines.</p>
+      <div class="amb-tags"><span>AWS</span><span>Docker</span><span>CI/CD</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ STATS ══════════════ -->
+<section class="stats-section">
+  <div class="stats-row">
+    <div class="stat-box" data-count="50">
+      <div class="stat-num"><span class="count-num">3</span>+</div>
+      <div class="stat-lbl" data-i18n="stats.projects">Projets</div>
+    </div>
+    <div class="stat-box" data-count="5">
+      <div class="stat-num"><span class="count-num">3</span>+</div>
+      <div class="stat-lbl" data-i18n="stats.years">Ans d'expérience</div>
+    </div>
+    <div class="stat-box" data-count="100">
+      <div class="stat-num"><span class="count-num">50</span>%</div>
+      <div class="stat-lbl" data-i18n="stats.satisfaction">Satisfaction</div>
+    </div>
+    <div class="stat-box" data-count="10">
+      <div class="stat-num"><span class="count-num">0</span>+</div>
+      <div class="stat-lbl" data-i18n="stats.techs">Technologies</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ APPRECIATION ══════════════ -->
+<section id="appreciation" class="appreciation-section">
+  <div class="section-head">
+    <span class="sec-tag">// APPRÉCIATION</span>
+    <h2 class="sec-title" data-i18n="appreciation.title">Tu aimes <span class="accent">mon travail ?</span></h2>
+    <p class="sec-sub" data-i18n="appreciation.sub">Si tu veux me soutenir, tu peux faire un don — 100% va directement à moi 🙏</p>
+  </div>
+
+  <div class="appreciation-container">
+    <!-- Left: message -->
+    <div class="appr-left">
+      <div class="appr-profile">
+        <div class="appr-avatar">MA</div>
+        <div>
+          <div class="appr-name">Marc Anouman</div>
+          <div class="appr-role" data-i18n="appreciation.role">Dev · Designer · IT</div>
+        </div>
+      </div>
+      <p class="appr-msg" data-i18n="appreciation.msg">
+        Chaque don, même petit, m'aide à continuer à créer, apprendre et partager. 
+        Merci infiniment pour ton soutien ! 🚀
+      </p>
+      <div class="appr-amounts">
+        <button class="amount-btn active" data-amount="2">2€</button>
+        <button class="amount-btn" data-amount="5">5€</button>
+        <button class="amount-btn" data-amount="10">10€</button>
+        <button class="amount-btn" data-amount="20">20€</button>
+        <button class="amount-btn" data-amount="0">Libre</button>
+      </div>
+      <div class="custom-amount-row" id="customAmountRow" style="display:none">
+        <input type="number" id="customAmount" placeholder="Montant en €" min="1"/>
+      </div>
+    </div>
+
+    <!-- Right: payment methods -->
+    <div class="appr-right">
+      <div class="payment-card paypal-card" id="paypalBtn">
+        <div class="payment-logo">
+          <svg viewBox="0 0 124 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M46.2 6.8H38.4c-.5 0-1 .4-1 .9l-3.2 20.3c-.1.4.3.8.7.8h3.8c.5 0 1-.4 1-.9l.9-5.6c.1-.5.5-.9 1-.9h2.5c5.1 0 8.1-2.5 8.8-7.4.4-2.1 0-3.8-1-5-1.2-1.5-3.2-2.2-5.7-2.2z" fill="#253B80"/>
+            <path d="M47.3 13.9c-.4 2.8-2.5 2.8-4.6 2.8h-1.2l.8-5.2c.1-.3.3-.5.6-.5h.6c1.4 0 2.7 0 3.4.8.4.5.5 1.2.4 2.1z" fill="#253B80"/>
+            <path d="M68.1 13.8h-3.8c-.3 0-.5.2-.6.5l-.1.9-.2-.3c-.8-1.1-2.4-1.5-4.1-1.5-3.8 0-7.1 2.9-7.7 6.9-.3 2 .1 3.9 1.2 5.2 1 1.2 2.5 1.8 4.2 1.8 3.1 0 4.8-2 4.8-2l-.1.9c-.1.4.2.8.6.8h3.4c.5 0 1-.4 1-.9l2-12.9c.1-.3-.2-.7-.6-.7z" fill="#253B80"/>
+          </svg>
+        </div>
+        <div class="payment-info">
+          <strong>PayPal</strong>
+          <span data-i18n="appreciation.paypal">Envoyer via PayPal</span>
+        </div>
+        <div class="payment-arrow">→</div>
+      </div>
+
+      <div class="payment-card visa-card" id="visaBtn">
+        <div class="payment-logo visa-logo">
+          <svg viewBox="0 0 60 20" fill="none"><path d="M23.3 1.5L19.8 18.5H14.7L18.2 1.5H23.3z" fill="#1A1F71"/><path d="M44.7 1.5L39.3 12.8L37.6 4.2C37.3 2.6 36 1.5 34.6 1.5H26.2L26.1 2.1C27.6 2.4 29.5 3 30.7 3.7L35.4 18.5H40.7L48.9 1.5H44.7z" fill="#1A1F71"/><path d="M13.5 1.5L7 13.3L6.3 10.1L4.1 3.5C3.8 2.5 2.9 1.5 1.8 1.5H0L0 2.1C2.7 2.8 5 4 6.8 5.5L11.9 18.5H17.2L21.4 1.5H13.5z" fill="#1A1F71"/></svg>
+        </div>
+        <div class="payment-info">
+          <strong>Carte prépayée</strong>
+          <span data-i18n="appreciation.visa">Via lien de paiement</span>
+        </div>
+        <div class="payment-arrow">→</div>
+      </div>
+
+      <div class="appr-note" data-i18n="appreciation.note">
+        💡 Le montant sélectionné sera automatiquement pré-rempli dans PayPal.
+        Pour la carte, tu recevras un lien de paiement sécurisé.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACT ══════════════ -->
+<section id="contact" class="contact-section">
+  <div class="section-head">
+    <span class="sec-tag">// CONTACT</span>
+    <h2 class="sec-title" data-i18n="contact.title">Travaillons <span class="accent">Ensemble</span></h2>
+    <p class="sec-sub" data-i18n="contact.sub">Un projet ? Une idée ? Écrivons-le.</p>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-info-col">
+      <div class="contact-card-main">
+        <div class="contact-ring-wrap">
+          <div class="contact-ring r1"></div>
+          <div class="contact-ring r2"></div>
+          <div class="contact-avatar-main">MA</div>
+        </div>
+        <h3>N'gouan Anouman Marc</h3>
+        <p>Développeur · Designer · IT</p>
+        <div class="contact-divider"></div>
+        <div class="contact-links-list">
+          <a href="https://wa.me/330777596933" target="_blank" class="contact-link-item wa-link">
+            <svg class="cl-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            <div><strong>WhatsApp</strong><span>+33 07 77 59 69 33</span></div>
+          </a>
+          <a href="mailto:ngouanmarc03@gmail.com" class="contact-link-item email-link">
+            <svg class="cl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div><strong>Email</strong><span>ngouanmarc03@gmail.com</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-col">
+      <form id="contactForm" class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact"/>
+        <p style="display:none"><input name="bot-field"/></p>
+        <div class="cf-group">
+          <label data-i18n="contact.name">Nom complet</label>
+          <input type="text" name="name" required placeholder="Votre nom"/>
+          <div class="cf-line"></div>
+        </div>
+        <div class="cf-group">
+          <label data-i18n="contact.email">Email</label>
+          <input type="email" name="email" required placeholder="votre@email.com"/>
+          <div class="cf-line"></div>
+        </div>
+        <div class="cf-group">
+          <label data-i18n="contact.subject">Sujet</label>
+          <select name="subject">
+            <option value="web" data-i18n="contact.opt.web">Création de site web</option>
+            <option value="design" data-i18n="contact.opt.design">Design graphique</option>
+            <option value="logiciel" data-i18n="contact.opt.software">Installation logiciel</option>
+            <option value="office" data-i18n="contact.opt.office">Suite Office</option>
+            <option value="autre" data-i18n="contact.opt.other">Autre</option>
+          </select>
+          <div class="cf-line"></div>
+        </div>
+        <div class="cf-group">
+          <label data-i18n="contact.message">Message</label>
+          <textarea name="message" rows="5" required placeholder="Décris ton projet..."></textarea>
+          <div class="cf-line"></div>
+        </div>
+        <button type="submit" class="btn-send">
+          <span data-i18n="contact.send">Envoyer →</span>
+          <div class="btn-send-glow"></div>
+        </button>
+        <div id="cfStatus" class="cf-status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">&lt;MARC/&gt;</div>
+    <p>© 2025 N'gouan Anouman Marc – Tous droits réservés</p>
+    <div class="footer-nav">
+      <a href="#hero" data-i18n="nav.home">Accueil</a>
+      <a href="#skills" data-i18n="nav.skills">Compétences</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ AI ASSISTANT ══════════════ -->
+<div id="aiAssistant">
+  <button class="ai-toggle-btn" id="aiToggle" title="Assistant IA">
+    <span class="ai-icon">🤖</span>
+    <span class="ai-pulse"></span>
+  </button>
+  <div class="ai-window" id="aiWindow">
+    <div class="ai-header">
+      <div class="ai-header-left">
+        <div class="ai-avatar">🤖</div>
+        <div>
+          <div class="ai-name">Marc Bot</div>
+          <div class="ai-status">● En ligne</div>
+        </div>
+      </div>
+      <button class="ai-close" id="aiClose">✕</button>
+    </div>
+    <div class="ai-messages" id="aiMessages">
+      <div class="ai-msg bot">
+        <div class="ai-bubble">Salut ! Je suis l'assistant de Marc 👋<br>Pose-moi n'importe quelle question sur son portfolio !</div>
+      </div>
+      <div class="ai-suggestions">
+        <button class="ai-sug" data-q="Qui est Marc ?">Qui est Marc ?</button>
+        <button class="ai-sug" data-q="Comment contacter Marc ?">Comment le contacter ?</button>
+        <button class="ai-sug" data-q="Quelles sont ses compétences ?">Ses compétences ?</button>
+        <button class="ai-sug" data-q="Quels sont ses tarifs ?">Ses tarifs ?</button>
+      </div>
+    </div>
+    <div class="ai-input-row">
+      <input type="text" id="aiInput" placeholder="Pose ta question..."/>
+      <button id="aiSend">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TOAST ══════════════ -->
+<div id="toastContainer"></div>
+
+<!-- Scripts -->
+<script src="js/i18n.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/splash.js"></script>
+<script src="js/main.js"></script>
+<script src="js/skills.js"></script>
+<script src="js/character.js"></script>
+<script src="js/ai-assistant.js"></script>
+<script src="js/gamefx.js"></script>
+<script src="js/appreciation.js"></script>
+</body>
+</html>
